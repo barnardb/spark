@@ -43,6 +43,7 @@ and [Vault](https://www.nomadproject.io/docs/vault-integration/index.html).
 To get started, see Nomad's official 
 [Apache Spark Integration Guide](https://www.nomadproject.io/guides/spark/spark.html).
  You can also use Nomad's [example Terraform configuration](https://github.com/hashicorp/nomad/terraform) 
-and embedded Spark walkthrough to give the integration a quick test drive on AWS. 
-Builds are currently available for Spark [2.1.0](https://s3.amazonaws.com/nomad-spark/spark-2.1.0-bin-nomad.tgz) 
-and 2.1.1](https://s3.amazonaws.com/nomad-spark/spark-2.1.1-bin-nomad.tgz).
+and [embedded Spark quickstart](https://github.com/hashicorp/nomad/terraform/examples/spark) 
+to give the integration a quick test drive on AWS. Builds are currently 
+available for Spark [2.1.0](https://s3.amazonaws.com/nomad-spark/spark-2.1.0-bin-nomad.tgz) 
+and [2.1.1](https://s3.amazonaws.com/nomad-spark/spark-2.1.1-bin-nomad.tgz).
