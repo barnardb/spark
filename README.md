@@ -18,6 +18,9 @@ spark-submit \
   https://s3.amazonaws.com/nomad-spark/spark-examples_2.11-2.1.0-SNAPSHOT.jar 100
  ```
 
+The ultimate goal is to integrate Nomad into Spark directly, either natively or 
+via a backend/scheduler plugin interface.
+
 ## Benefits of Spark on Nomad
 
 Nomad's design is heavily inspired by Google's work on both 
