@@ -92,12 +92,16 @@ private[spark] object DriverTask extends SparkNomadTaskType("driver", "driver", 
     }
 
     val command = parameters.command
-    val submitOptions: Seq[String] = Seq(
-      "--master=" + parameters.nomadUrl.fold("nomad")("nomad:" + _),
-      "--driver-class-path=" +
-        (additionalJarUrls ++ conf.getOption("spark.driver.extraClassPath"))
-          .map(j => new URI(j).getPath).mkString(":")
-
+    val submitOptions: Seq[String] = (
+      Map(
+        "--master" -> parameters.nomadUrl.fold("nomad")("nomad:" + _),
+        "--driver-class-path" -> (
+          additionalJarUrls ++ conf.getOption("spark.driver.extraClassPath"))
+        .map(j => new URI(j).getPath).mkString(":")
+      )
+      .withFilter((t) => !t._2.isEmpty)
+      .map({ case (key, value) => "%s=%s" format (key, value) })
+      .toSeq
     ) ++ driverConf.map { case (name, value) => s"--conf=$name=$value" }
 
     val primaryResourceUrl = asFileIn(jobConf, task)(command.primaryResource.url)
