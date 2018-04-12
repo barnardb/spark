@@ -159,7 +159,7 @@ private[spark] abstract class SparkNomadTaskType(
             s"You must either set ${SPARK_DISTRIBUTION.key} or provide a ${JOB_TEMPLATE.key} " +
             s"""with a command provided for the task with meta spark.nomad.role = "$role"""")
       }
-      val (sparkHomeUrl, sparkArtifact) = asFileAndArtifact(jobConf, sparkDistributionUrl)
+      val (sparkHomeUrl, sparkArtifact) = asFileAndArtifact(jobConf, sparkDistributionUrl, true)
       sparkArtifact.foreach(task.addArtifacts(_))
       val sparkDir =
         if (sparkDistributionUrl.getScheme == "local") sparkHomeUrl.getPath
@@ -185,7 +185,7 @@ private[spark] abstract class SparkNomadTaskType(
   }
 
   protected def asFileIn(jobConf: SparkNomadJob.CommonConf, task: Task)(url: String): String = {
-    val (file, artifact) = asFileAndArtifact(jobConf, new URI(url))
+    val (file, artifact) = asFileAndArtifact(jobConf, new URI(url), false)
     artifact.foreach(task.addArtifacts(_))
     file.toString
   }
@@ -266,7 +266,8 @@ private[spark] abstract class SparkNomadTaskType(
 
   private def asFileAndArtifact(
       jobConf: SparkNomadJob.CommonConf,
-      url: URI
+      url: URI,
+      unarchive: Boolean
   ): (URI, Option[TaskArtifact]) = {
     url.getScheme match {
       case "local" => url -> None
@@ -285,6 +286,10 @@ private[spark] abstract class SparkNomadTaskType(
         val artifact = new TaskArtifact()
           .setRelativeDest(workDir)
           .setGetterSource(url.toString)
+        if (!unarchive) {
+          val options = Map("archive" -> false)
+          artifact.setGetterOptions(options.asJava)
+        }
         file -> Some(artifact)
     }
   }
