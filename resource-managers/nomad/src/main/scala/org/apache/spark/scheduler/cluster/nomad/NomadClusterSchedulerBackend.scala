@@ -131,7 +131,8 @@ private[spark] class NomadClusterSchedulerBackend(
         conf.get("spark.driver.port").toInt,
         CoarseGrainedSchedulerBackend.ENDPOINT_NAME).toString
 
-      jobController.initialiseExecutors(jobConf, conf, driverUrl, staticExecutorsToRequest.getOrElse(0))
+      jobController.initialiseExecutors(
+        jobConf, conf, driverUrl, staticExecutorsToRequest.getOrElse(0))
     }
 
     override def receiveAndReply(context: RpcCallContext): PartialFunction[Any, Unit] = ({

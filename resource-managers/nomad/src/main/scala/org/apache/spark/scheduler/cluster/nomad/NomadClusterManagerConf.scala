@@ -21,6 +21,7 @@ import com.hashicorp.nomad.apimodel.Job
 import com.hashicorp.nomad.javasdk.NomadApiConfiguration
 import com.hashicorp.nomad.javasdk.NomadApiConfiguration.nomadAddressAsHttpHost
 import org.apache.http.HttpHost
+
 import org.apache.spark.{SparkConf, SparkException}
 import org.apache.spark.deploy.nomad.ApplicationRunCommand
 import org.apache.spark.internal.config._
